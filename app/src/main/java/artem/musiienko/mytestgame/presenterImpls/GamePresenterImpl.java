@@ -63,6 +63,8 @@ public class GamePresenterImpl implements GamePresenter {
 
         checkPossibilities();
 
+        Log.d(TAG, "test");
+
     }
 
     public void setUnits(HashMap<Integer, Unit> units) {
