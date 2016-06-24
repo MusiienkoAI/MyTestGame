@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Field">
+        <attr name="col_number" format="integer"/>
+        <attr name="row_number" format="integer"/>
+    </declare-styleable>
+</resources>
