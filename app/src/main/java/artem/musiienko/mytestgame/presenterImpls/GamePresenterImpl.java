@@ -61,9 +61,8 @@ public class GamePresenterImpl implements GamePresenter {
         gameView.setAimDown(isTank);
         gameView.setFireEnable(isTank);
 
-//        checkPossibilities();
+        checkPossibilities();
 
-        Log.d(TAG, "test");
 
     }
 
