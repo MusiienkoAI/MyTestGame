@@ -9,9 +9,11 @@ import artem.musiienko.mytestgame.utils.Consts;
 public class Tank extends Walker  {
 
 
-
     private int watchVector;
 
+    public Tank() {
+        watchVector = Consts.Vector.RIGHT;
+    }
 
     @Override
     public void demolish() {

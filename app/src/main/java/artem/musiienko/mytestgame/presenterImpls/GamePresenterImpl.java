@@ -61,6 +61,13 @@ public class GamePresenterImpl implements GamePresenter {
         gameView.setAimDown(isTank);
         gameView.setFireEnable(isTank);
 
+
+        if (isTank) {
+            int vector = ((Tank) units.get(curId)).getWatchVector();
+            selectAim(vector);
+
+        }
+        field.selectUnit(curId);
         checkPossibilities();
 
 
@@ -79,11 +86,14 @@ public class GamePresenterImpl implements GamePresenter {
     public void addUnit(Unit unit) {
         unit.setId(autoIndex++);
         units.put(unit.getId(), unit);
+
+        field.addUnit(unit);
+
         if (unit instanceof Walker) {
             ((Walker) unit).setMargin(radius);
             setCurId(unit.getId());
+
         }
-        field.addUnit(unit);
 
 
     }
@@ -93,7 +103,12 @@ public class GamePresenterImpl implements GamePresenter {
 
         field.removeUnit(unit);
         units.remove(unit.getId());
-        checkPossibilities();
+        if (curId == unit.getId()) {
+            clearFocus();
+        } else {
+            checkPossibilities();
+        }
+
     }
 
     @Override
@@ -102,7 +117,7 @@ public class GamePresenterImpl implements GamePresenter {
     }
 
     @Override
-    public void checkHit(final Unit bullet) {
+    public void checkHit(final Bullet bullet) {
 
         Observable.from(units.values())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -110,7 +125,7 @@ public class GamePresenterImpl implements GamePresenter {
                 .map(new Func1<Unit, Unit>() {
                     @Override
                     public Unit call(Unit unit) {
-                        if (unit.getId() != bullet.getId() && isInside(bullet, unit))
+                        if (unit.getId() != bullet.getId() && isInside(bullet, unit) && unit.getId() != bullet.getParentId())
                             return unit;
                         else
                             return null;
@@ -237,30 +252,32 @@ public class GamePresenterImpl implements GamePresenter {
 
     @Override
     public void watchLeft() {
-        resetAim();
-        gameView.setAimLeft(false);
+        selectAim(Consts.Vector.LEFT);
         ((Tank) units.get(curId)).watch(Consts.Vector.LEFT);
+        field.rotateTank(curId, Consts.Vector.LEFT);
     }
 
     @Override
     public void watchRight() {
-        resetAim();
-        gameView.setAimRight(false);
+        selectAim(Consts.Vector.RIGHT);
         ((Tank) units.get(curId)).watch(Consts.Vector.RIGHT);
+        field.rotateTank(curId, Consts.Vector.RIGHT);
     }
 
     @Override
     public void watchDown() {
-        resetAim();
+        selectAim(Consts.Vector.DOWN);
         gameView.setAimDown(false);
         ((Tank) units.get(curId)).watch(Consts.Vector.DOWN);
+        field.rotateTank(curId, Consts.Vector.DOWN);
     }
 
     @Override
     public void watchUp() {
-        resetAim();
+        selectAim(Consts.Vector.UP);
         gameView.setAimUp(false);
         ((Tank) units.get(curId)).watch(Consts.Vector.UP);
+        field.rotateTank(curId, Consts.Vector.UP);
     }
 
     @Override
@@ -297,7 +314,7 @@ public class GamePresenterImpl implements GamePresenter {
 
     private void checkPossibilities() {
         final Unit unit = units.get(curId);
-        Log.d(TAG,"checkPossibilities");
+
         //PossibleLeft
         if (unit.getxStart() == 0) {
 
@@ -492,13 +509,6 @@ public class GamePresenterImpl implements GamePresenter {
                 && compareUnit.getyStart() <= bulletUnit.getyStart() && compareUnit.getyEnd() >= bulletUnit.getyEnd());
     }
 
-    private void resetAim() {
-        gameView.setAimRight(true);
-        gameView.setAimLeft(true);
-        gameView.setAimUp(true);
-        gameView.setAimDown(true);
-    }
-
 
     Func1<Walker, Walker> funcUp = new Func1<Walker, Walker>() {
         @Override
@@ -546,4 +556,50 @@ public class GamePresenterImpl implements GamePresenter {
     };
 
 
+    private void selectAim(int vector) {
+        switch (vector) {
+            case Consts.Vector.UP: {
+                gameView.setAimRight(true);
+                gameView.setAimLeft(true);
+                gameView.setAimUp(false);
+                gameView.setAimDown(true);
+                break;
+            }
+            case Consts.Vector.DOWN: {
+                gameView.setAimRight(true);
+                gameView.setAimLeft(true);
+                gameView.setAimUp(true);
+                gameView.setAimDown(false);
+                break;
+            }
+            case Consts.Vector.LEFT: {
+                gameView.setAimRight(true);
+                gameView.setAimLeft(false);
+                gameView.setAimUp(true);
+                gameView.setAimDown(true);
+
+                break;
+            }
+            case Consts.Vector.RIGHT: {
+                gameView.setAimRight(false);
+                gameView.setAimLeft(true);
+                gameView.setAimUp(true);
+                gameView.setAimDown(true);
+                break;
+            }
+        }
+    }
+
+
+    private void clearFocus() {
+        gameView.setAimRight(false);
+        gameView.setAimLeft(false);
+        gameView.setAimUp(false);
+        gameView.setAimDown(false);
+
+        gameView.setPossibleRight(false);
+        gameView.setPossibleLeft(false);
+        gameView.setPossibleUp(false);
+        gameView.setPossibleDown(false);
+    }
 }

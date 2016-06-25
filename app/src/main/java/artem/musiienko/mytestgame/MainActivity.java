@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 
 import artem.musiienko.mytestgame.presenterImpls.GamePresenterImpl;
@@ -24,21 +25,21 @@ public class MainActivity extends AppCompatActivity implements GameView {
     @BindView(R.id.field)
     Field field;
     @BindView(R.id.btn_walk_up)
-    Button btnWalkUp;
+    ImageView btnWalkUp;
     @BindView(R.id.btn_walk_down)
-    Button btnWalkDown;
+    ImageView btnWalkDown;
     @BindView(R.id.btn_walk_left)
-    Button btnWalkLeft;
+    ImageView btnWalkLeft;
     @BindView(R.id.btn_walk_right)
-    Button btnWalkRight;
+    ImageView btnWalkRight;
     @BindView(R.id.btn_watch_up)
-    Button btnWatchUp;
+    ImageView btnWatchUp;
     @BindView(R.id.btn_watch_down)
-    Button btnWatchDown;
+    ImageView btnWatchDown;
     @BindView(R.id.btn_watch_left)
-    Button btnWatchLeft;
+    ImageView btnWatchLeft;
     @BindView(R.id.btn_watch_right)
-    Button btnWatchRight;
+    ImageView btnWatchRight;
     @BindView(R.id.btn_fire)
     Button btnFire;
 
@@ -68,13 +69,7 @@ public class MainActivity extends AppCompatActivity implements GameView {
                 gamePresenter.addUnit(wall);
 
 
-                wall = new Wall();
 
-                wall.setxStart(6*field.getRadius());
-                wall.setyStart(field.getRadius());
-                wall.sethLong(3);
-                wall.setwLong(2);
-                gamePresenter.addUnit(wall);
 
                 Man man = new Man();
 
@@ -86,6 +81,15 @@ public class MainActivity extends AppCompatActivity implements GameView {
 
                 Tank tank = new Tank();
                 gamePresenter.addUnit(tank);
+
+
+                wall = new Wall();
+
+                wall.setxStart(6 * field.getRadius());
+                wall.setyStart(field.getRadius());
+                wall.sethLong(3);
+                wall.setwLong(2);
+                gamePresenter.addUnit(wall);
 
 
                 gamePresenter.startGame();
@@ -157,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements GameView {
         setButtonEnable(btnFire,enable);
     }
 
-    private void setButtonEnable(Button button, boolean enable){
+    private void setButtonEnable(View button, boolean enable) {
         button.setEnabled(enable);
     }
 

@@ -5,16 +5,20 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.RotateDrawable;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import artem.musiienko.mytestgame.R;
 import artem.musiienko.mytestgame.presenters.GamePresenter;
@@ -25,6 +29,11 @@ import artem.musiienko.mytestgame.units.Unit;
 import artem.musiienko.mytestgame.units.Walker;
 import artem.musiienko.mytestgame.units.Wall;
 import artem.musiienko.mytestgame.utils.Consts;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by artyom on 23.06.16.
@@ -37,6 +46,8 @@ public class Field extends FrameLayout {
 
     private int width;
     private int radius;
+
+    private int oldId = -1;
 
     private Paint paint;
 
@@ -99,16 +110,15 @@ public class Field extends FrameLayout {
 
     public void addUnit(Unit unit) {
 
-        TextView textView = new TextView(getContext());
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.BLACK);
+        ImageView imageView = new ImageView(getContext());
+
+
         if (unit instanceof Wall) {
-            textView.setText("W");
-            textView.setBackgroundColor(Color.BLUE);
+            imageView.setBackgroundResource(R.drawable.wall);
         }
         if (unit instanceof Man) {
-            textView.setText("M");
-            textView.setOnClickListener(new OnClickListener() {
+            imageView.setImageResource(R.drawable.standing_up_man);
+            imageView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     presenter.setCurId((Integer)v.getTag());
@@ -116,30 +126,77 @@ public class Field extends FrameLayout {
             });
         }
         if (unit instanceof Tank) {
-            textView.setText("T");
-            textView.setOnClickListener(new OnClickListener() {
+            imageView.setImageResource(R.drawable.tank_u);
+            imageView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     presenter.setCurId((Integer)v.getTag());
                 }
             });
+            Tank tank = (Tank) unit;
+            switch (tank.getWatchVector()) {
+                case Consts.Vector.DOWN: {
+                    imageView.setImageResource(R.drawable.tank_d);
+                    break;
+                }
+                case Consts.Vector.UP: {
+                    imageView.setImageResource(R.drawable.tank_u);
+                    break;
+                }
+                case Consts.Vector.RIGHT: {
+                    imageView.setImageResource(R.drawable.tank_r);
+                    break;
+                }
+                case Consts.Vector.LEFT: {
+                    imageView.setImageResource(R.drawable.tank_l);
+                    break;
+                }
+
+            }
+
+
         }
         if (unit instanceof Bullet) {
-            textView.setText("B");
-        }
 
+            Bullet bullet = (Bullet) unit;
+            switch (bullet.getVector()) {
+                case Consts.Vector.DOWN: {
+                    imageView.setImageResource(R.drawable.bullet_d);
+                    break;
+                }
+                case Consts.Vector.UP: {
+                    imageView.setImageResource(R.drawable.bullet_u);
+                    break;
+                }
+                case Consts.Vector.RIGHT: {
+                    imageView.setImageResource(R.drawable.bullet_r);
+                    break;
+                }
+                case Consts.Vector.LEFT: {
+                    imageView.setImageResource(R.drawable.bullet_l);
+                    break;
+                }
+
+            }
+
+
+
+
+
+        }
+        imageView.setPadding(10, 10, 10, 10);
         int unitWidth = radius*unit.getwLong();
         int unitHeight = radius*unit.gethLong();
 
 
         LayoutParams layoutParams = new LayoutParams(unitWidth,unitHeight);
         layoutParams.setMargins(unit.getxStart(),unit.getyStart(),0,0);
-        textView.setLayoutParams(layoutParams);
+        imageView.setLayoutParams(layoutParams);
         unit.setxEnd(unit.getxStart()+unitWidth);
         unit.setyEnd(unit.getyStart()+unitHeight);
-        textView.setTag(unit.getId());
-        map.put(unit.getId(),textView);
-        addView(textView);
+        imageView.setTag(unit.getId());
+        map.put(unit.getId(), imageView);
+        addView(imageView);
 
 
 
@@ -147,22 +204,69 @@ public class Field extends FrameLayout {
 
     }
 
-    public void removeUnit(Unit unit) {
-
+    public void removeUnit(final Unit unit) {
+        if ((unit instanceof Bullet)) {
             removeView(map.get(unit.getId()));
+        } else {
+            ImageView imageView = (ImageView) map.get(unit.getId());
+            imageView.setImageResource(R.drawable.smoke_explosion);
+            Observable.interval(200, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+
+                    .subscribe(new Subscriber<Long>() {
+                        @Override
+                        public void onCompleted() {
+                            unsubscribe();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(Long aLong) {
+                            removeView(map.get(unit.getId()));
+                            onCompleted();
+                        }
+                    });
+        }
 
     }
 
+
+    public void rotateTank(Integer id, int vector) {
+        ImageView view = (ImageView) map.get(id);
+        switch (vector) {
+            case Consts.Vector.DOWN: {
+                view.setImageResource(R.drawable.tank_d);
+                break;
+            }
+            case Consts.Vector.UP: {
+                view.setImageResource(R.drawable.tank_u);
+                break;
+            }
+            case Consts.Vector.RIGHT: {
+                view.setImageResource(R.drawable.tank_r);
+                break;
+            }
+            case Consts.Vector.LEFT: {
+                view.setImageResource(R.drawable.tank_l);
+                break;
+            }
+
+        }
+    }
 
     public void updateUnit(Unit unit) {
-        TextView textView = (TextView) map.get(unit.getId());
-        LayoutParams layoutParams = (FrameLayout.LayoutParams)textView.getLayoutParams();
+        View view = map.get(unit.getId());
+        LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
         int unitWidth = radius*unit.getwLong();
         int unitHeight = radius*unit.gethLong();
         layoutParams.width = unitWidth;
         layoutParams.height = unitHeight;
         layoutParams.setMargins(unit.getxStart(),unit.getyStart(),0,0);
-        textView.setLayoutParams(layoutParams);
+        view.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -171,6 +275,17 @@ public class Field extends FrameLayout {
 
     }
 
+
+    public void selectUnit(Integer id) {
+        if (id != null) {
+            if (map.get(oldId) != null) {
+                map.get(oldId).setBackgroundColor(Color.TRANSPARENT);
+            }
+            View view = map.get(id);
+            view.setBackgroundResource(R.drawable.shape_selected_unit);
+            oldId = id;
+        }
+    }
     public int getRadius() {
         return radius;
     }

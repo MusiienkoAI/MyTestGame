@@ -2,6 +2,7 @@ package artem.musiienko.mytestgame.presenters;
 
 import java.util.HashMap;
 
+import artem.musiienko.mytestgame.units.Bullet;
 import artem.musiienko.mytestgame.units.Unit;
 import artem.musiienko.mytestgame.units.Walker;
 import artem.musiienko.mytestgame.utils.customviews.Field;
@@ -22,7 +23,7 @@ public interface GamePresenter {
 
     void updateUnit(Unit unit);
 
-    void checkHit(Unit unit);
+    void checkHit(Bullet unit);
 
     void startGame();
 

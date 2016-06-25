@@ -38,7 +38,7 @@ public class MyGrid extends View {
         super(context, attrs, defStyleAttr);
 
         paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.colorAccent));
+        paint.setColor(getResources().getColor(R.color.grid_color));
     }
 
 

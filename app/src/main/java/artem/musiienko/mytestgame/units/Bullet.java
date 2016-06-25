@@ -25,6 +25,7 @@ public class Bullet extends Walker {
 
     private Integer duration = 1000;
 
+    private int vector;
 
     public static final String TAG = "Bullet";
 
@@ -38,6 +39,14 @@ public class Bullet extends Walker {
         return parentId;
     }
 
+    public int getVector() {
+        return vector;
+    }
+
+    public void setVector(int vector) {
+        this.vector = vector;
+    }
+
     public void setRemoved(boolean removed) {
         isRemoved = removed;
     }
@@ -48,9 +57,11 @@ public class Bullet extends Walker {
         int radius = presenter.getRadius();
         setMargin(radius);
         setParentId(tank.getId());
+        vector = tank.getWatchVector();
+
 
        setId(id);
-        switch (tank.getWatchVector()) {
+        switch (vector) {
             case Consts.Vector.UP: {
                 setxStart(tank.getxStart());
                 setyStart(tank.getyStart() - radius);

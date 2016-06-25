@@ -11,13 +11,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="artem.musiienko.mytestgame.MainActivity">
 
-   <artem.musiienko.mytestgame.utils.customviews.Field
+
+    <artem.musiienko.mytestgame.utils.customviews.Field
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:layout_weight="1"
        android:id="@+id/field"
        app:col_number="10"
-       app:row_number="6">
+        app:row_number="7">
 
    </artem.musiienko.mytestgame.utils.customviews.Field>
 
@@ -31,47 +32,58 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
-        <Button
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:text="MOVE" />
+
+            <ImageView
             android:layout_width="@dimen/button_arrow_radius"
             android:layout_height="@dimen/button_arrow_radius"
             android:layout_above="@+id/btn_next"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:id="@+id/btn_walk_up"
-            android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_up" />
 
-        <Button
+            <ImageView
             android:layout_width="@dimen/button_arrow_radius"
             android:layout_height="@dimen/button_arrow_radius"
             android:layout_below="@+id/btn_next"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/btn_walk_down"
-            android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_down" />
 
-        <Button
+            <ImageView
             android:layout_width="@dimen/button_arrow_radius"
             android:layout_height="@dimen/button_arrow_radius"
             android:layout_toRightOf="@+id/btn_next"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:id="@+id/btn_walk_right"
-            android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_right" />
 
-        <Button
+            <ImageView
             android:layout_width="@dimen/button_arrow_radius"
             android:layout_height="@dimen/button_arrow_radius"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_next"
             android:layout_marginRight="10dp"
             android:id="@+id/btn_walk_left"
-            android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_left" />
 
-        <Button
-            android:layout_width="@dimen/button_arrow_radius"
-            android:layout_height="@dimen/button_arrow_radius"
+            <ImageView
+                android:layout_width="@dimen/button_fire_radius"
+                android:layout_height="@dimen/button_fire_radius"
             android:layout_centerInParent="true"
-            android:id="@+id/btn_next"/>
+                android:id="@+id/btn_next"
+                android:visibility="invisible" />
 
 
         </RelativeLayout>
@@ -80,51 +92,58 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:text="AIM"
+                android:layout_marginTop="10dp" />
 
-
-            <Button
+            <ImageView
                 android:layout_width="@dimen/button_arrow_radius"
                 android:layout_height="@dimen/button_arrow_radius"
                 android:layout_above="@+id/btn_fire"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/btn_watch_up"
-                android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_up" />
 
-            <Button
+            <ImageView
                 android:layout_width="@dimen/button_arrow_radius"
                 android:layout_height="@dimen/button_arrow_radius"
                 android:layout_below="@+id/btn_fire"
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/btn_watch_down"
-                android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_down" />
 
-            <Button
+            <ImageView
                 android:layout_width="@dimen/button_arrow_radius"
                 android:layout_height="@dimen/button_arrow_radius"
                 android:layout_toRightOf="@+id/btn_fire"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/btn_watch_right"
-                android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_right" />
 
-            <Button
+            <ImageView
                 android:layout_width="@dimen/button_arrow_radius"
                 android:layout_height="@dimen/button_arrow_radius"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/btn_fire"
                 android:layout_marginRight="10dp"
                 android:id="@+id/btn_watch_left"
-                android:background="@drawable/move_button_selector"/>
+                android:background="@drawable/selector_arrow_left" />
 
             <Button
-                android:layout_width="@dimen/button_arrow_radius"
-                android:layout_height="@dimen/button_arrow_radius"
+                android:layout_width="@dimen/button_fire_radius"
+                android:layout_height="@dimen/button_fire_radius"
                 android:layout_centerInParent="true"
                 android:id="@+id/btn_fire"
                 android:text="FIRE"
-                android:background="@drawable/move_button_selector"
+                android:textColor="@android:color/white"
+                android:background="@drawable/selector_fire"
                 />
 
 
