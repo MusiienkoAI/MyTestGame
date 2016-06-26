@@ -1,5 +1,6 @@
 package artem.musiienko.mytestgame.units;
 
+
 import artem.musiienko.mytestgame.interfaces.DemolishInterface;
 import artem.musiienko.mytestgame.utils.Consts;
 

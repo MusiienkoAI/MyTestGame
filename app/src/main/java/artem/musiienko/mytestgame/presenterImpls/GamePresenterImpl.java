@@ -6,12 +6,17 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import artem.musiienko.mytestgame.interfaces.DemolishInterface;
+import artem.musiienko.mytestgame.interfaces.FireInterface;
 import artem.musiienko.mytestgame.presenters.GamePresenter;
 
 import artem.musiienko.mytestgame.units.Bullet;
+import artem.musiienko.mytestgame.units.Checker;
+import artem.musiienko.mytestgame.units.Man;
 import artem.musiienko.mytestgame.units.Tank;
 import artem.musiienko.mytestgame.units.Unit;
 import artem.musiienko.mytestgame.units.Walker;
+import artem.musiienko.mytestgame.units.Wall;
 import artem.musiienko.mytestgame.utils.Consts;
 import artem.musiienko.mytestgame.utils.customviews.Field;
 import artem.musiienko.mytestgame.views.GameView;
@@ -41,6 +46,8 @@ public class GamePresenterImpl implements GamePresenter {
 
     private Field field;
 
+    private Checker checker;
+
     private int radius;
 
     private int autoIndex;
@@ -54,7 +61,7 @@ public class GamePresenterImpl implements GamePresenter {
 
         this.curId = curId;
 
-        boolean isTank = units.get(curId) instanceof Tank;
+        boolean isTank = units.get(curId) instanceof FireInterface;
         gameView.setAimRight(isTank);
         gameView.setAimLeft(isTank);
         gameView.setAimUp(isTank);
@@ -63,14 +70,13 @@ public class GamePresenterImpl implements GamePresenter {
 
 
         if (isTank) {
-            int vector = ((Tank) units.get(curId)).getWatchVector();
+            int vector = ((FireInterface) units.get(curId)).getWatchVector();
             selectAim(vector);
-
         }
         field.selectUnit(curId);
+
+        gameView.hide();
         checkPossibilities();
-
-
     }
 
     public void setUnits(HashMap<Integer, Unit> units) {
@@ -94,6 +100,7 @@ public class GamePresenterImpl implements GamePresenter {
             setCurId(unit.getId());
 
         }
+        checkPossibilities();
 
 
     }
@@ -146,7 +153,7 @@ public class GamePresenterImpl implements GamePresenter {
                     public void onNext(Unit unit) {
 
                         if(unit!=null) {
-                            if(unit instanceof Walker)
+                            if (unit instanceof DemolishInterface)
                                 removeUnit(unit);
 
                             ((Bullet)bullet).setRemoved(true);
@@ -253,14 +260,14 @@ public class GamePresenterImpl implements GamePresenter {
     @Override
     public void watchLeft() {
         selectAim(Consts.Vector.LEFT);
-        ((Tank) units.get(curId)).watch(Consts.Vector.LEFT);
+        ((FireInterface) units.get(curId)).watch(Consts.Vector.LEFT);
         field.rotateTank(curId, Consts.Vector.LEFT);
     }
 
     @Override
     public void watchRight() {
         selectAim(Consts.Vector.RIGHT);
-        ((Tank) units.get(curId)).watch(Consts.Vector.RIGHT);
+        ((FireInterface) units.get(curId)).watch(Consts.Vector.RIGHT);
         field.rotateTank(curId, Consts.Vector.RIGHT);
     }
 
@@ -268,7 +275,7 @@ public class GamePresenterImpl implements GamePresenter {
     public void watchDown() {
         selectAim(Consts.Vector.DOWN);
         gameView.setAimDown(false);
-        ((Tank) units.get(curId)).watch(Consts.Vector.DOWN);
+        ((FireInterface) units.get(curId)).watch(Consts.Vector.DOWN);
         field.rotateTank(curId, Consts.Vector.DOWN);
     }
 
@@ -276,8 +283,47 @@ public class GamePresenterImpl implements GamePresenter {
     public void watchUp() {
         selectAim(Consts.Vector.UP);
         gameView.setAimUp(false);
-        ((Tank) units.get(curId)).watch(Consts.Vector.UP);
+        ((FireInterface) units.get(curId)).watch(Consts.Vector.UP);
         field.rotateTank(curId, Consts.Vector.UP);
+    }
+
+    @Override
+    public void addTank(int xMargin, int yMargin) {
+        Tank tank = new Tank();
+        tank.watch(Consts.Vector.UP);
+        tank.setxStart(xMargin * field.getRadius());
+        tank.setyStart(yMargin * field.getRadius());
+        addUnit(tank);
+    }
+
+    @Override
+    public void addWall(int xMargin, int yMargin) {
+        Wall wall = new Wall();
+        wall.setxStart(xMargin * field.getRadius());
+        wall.setyStart(yMargin * field.getRadius());
+        addUnit(wall);
+    }
+
+    @Override
+    public void addMan(int xMargin, int yMargin) {
+        Man man = new Man();
+        man.setxStart(xMargin * field.getRadius());
+        man.setyStart(yMargin * field.getRadius());
+        addUnit(man);
+    }
+
+    @Override
+    public void addChecker(int xMargin, int yMargin) {
+        checker = new Checker();
+        checker.setxStart(xMargin * field.getRadius());
+        checker.setyStart(yMargin * field.getRadius());
+        addUnit(checker);
+    }
+
+    @Override
+    public void removeChecker() {
+        if (checker != null)
+            removeUnit(checker);
     }
 
     @Override
@@ -287,11 +333,10 @@ public class GamePresenterImpl implements GamePresenter {
 
     @Override
     public void fire() {
-        Tank curUnit = (Tank) units.get(curId);
-        if (curUnit.getWatchVector() == Consts.Vector.NOWHEARE) {
-            return;
-        }
-        Bullet bullet = new Bullet(autoIndex++, this, curUnit);
+
+        FireInterface fireInterface = (FireInterface) units.get(curId);
+        Bullet bullet = fireInterface.createBullet(field, this, autoIndex++);
+
 
         units.put(bullet.getId(), bullet);
         field.addUnit(bullet);
@@ -314,6 +359,9 @@ public class GamePresenterImpl implements GamePresenter {
 
     private void checkPossibilities() {
         final Unit unit = units.get(curId);
+        if (unit == null)
+            return;
+
 
         //PossibleLeft
         if (unit.getxStart() == 0) {

@@ -21,8 +21,10 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import artem.musiienko.mytestgame.R;
+import artem.musiienko.mytestgame.interfaces.DemolishInterface;
 import artem.musiienko.mytestgame.presenters.GamePresenter;
 import artem.musiienko.mytestgame.units.Bullet;
+import artem.musiienko.mytestgame.units.Checker;
 import artem.musiienko.mytestgame.units.Man;
 import artem.musiienko.mytestgame.units.Tank;
 import artem.musiienko.mytestgame.units.Unit;
@@ -116,6 +118,10 @@ public class Field extends FrameLayout {
         if (unit instanceof Wall) {
             imageView.setBackgroundResource(R.drawable.wall);
         }
+
+        if (unit instanceof Checker) {
+            imageView.setBackgroundResource(R.drawable.shape_checker);
+        }
         if (unit instanceof Man) {
             imageView.setImageResource(R.drawable.standing_up_man);
             imageView.setOnClickListener(new OnClickListener() {
@@ -205,31 +211,8 @@ public class Field extends FrameLayout {
     }
 
     public void removeUnit(final Unit unit) {
-        if ((unit instanceof Bullet)) {
-            removeView(map.get(unit.getId()));
-        } else {
-            ImageView imageView = (ImageView) map.get(unit.getId());
-            imageView.setImageResource(R.drawable.smoke_explosion);
-            Observable.interval(200, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-
-                    .subscribe(new Subscriber<Long>() {
-                        @Override
-                        public void onCompleted() {
-                            unsubscribe();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(Long aLong) {
-                            removeView(map.get(unit.getId()));
-                            onCompleted();
-                        }
-                    });
+        if (unit instanceof DemolishInterface) {
+            ((DemolishInterface) unit).demolish(this);
         }
 
     }
@@ -296,5 +279,9 @@ public class Field extends FrameLayout {
 
     public int getRawNumber() {
         return rawNumber;
+    }
+
+    public HashMap<Integer, View> getMap() {
+        return map;
     }
 }

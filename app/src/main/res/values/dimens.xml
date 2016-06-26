@@ -7,4 +7,8 @@
     <dimen name="button_arrow_radius">45dp</dimen>
 
     <dimen name="button_fire_radius">50dp</dimen>
+
+
+    <dimen name="bottom_bar_height">80dp</dimen>
+    <dimen name="bottom_bar_height_reverse">-80dp</dimen>
 </resources>

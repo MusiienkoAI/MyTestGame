@@ -24,5 +24,7 @@ public interface GameView {
 
     void setFireEnable(boolean enable);
 
+    void hide();
+
 
 }

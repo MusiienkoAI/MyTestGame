@@ -51,6 +51,16 @@ public interface GamePresenter {
 
     void watchUp();
 
+    void addTank(int xMargin, int yMargin);
+
+    void addWall(int xMargin, int yMargin);
+
+    void addMan(int xMargin, int yMargin);
+
+    void addChecker(int xMargin, int yMargin);
+
+    void removeChecker();
+
     void next();
 
     void fire();

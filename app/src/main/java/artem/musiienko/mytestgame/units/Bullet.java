@@ -1,7 +1,9 @@
 package artem.musiienko.mytestgame.units;
 
 import android.util.Log;
+import android.view.View;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +24,7 @@ import rx.schedulers.Schedulers;
 public class Bullet extends Walker {
 
 
-
-    private Integer duration = 1000;
+    private Integer duration = 500;
 
     private int vector;
 
@@ -58,9 +59,9 @@ public class Bullet extends Walker {
         setMargin(radius);
         setParentId(tank.getId());
         vector = tank.getWatchVector();
+        setId(id);
 
 
-       setId(id);
         switch (vector) {
             case Consts.Vector.UP: {
                 setxStart(tank.getxStart());
@@ -82,10 +83,10 @@ public class Bullet extends Walker {
                             @Override
                             public void onNext(Long aLong) {
 
-                                if(bullet.getyStart() ==0 || isRemoved) {
+                                if (bullet.getyStart() == 0 || isRemoved) {
                                     unsubscribe();
                                     presenter.removeUnit(bullet);
-                                }else {
+                                } else {
                                     bullet.walk(Consts.Vector.UP);
                                     presenter.updateUnit(bullet);
                                     presenter.checkHit(bullet);
@@ -95,7 +96,7 @@ public class Bullet extends Walker {
                 break;
             }
             case Consts.Vector.DOWN: {
-               setxStart(tank.getxStart());
+                setxStart(tank.getxStart());
                 setyStart(tank.getyStart() + radius);
 
                 subscription = Observable.interval(duration, TimeUnit.MILLISECONDS)
@@ -114,10 +115,10 @@ public class Bullet extends Walker {
 
                             @Override
                             public void onNext(Long aLong) {
-                                if(bullet.getyEnd() >=presenter.getHeight() || isRemoved) {
+                                if (bullet.getyEnd() >= presenter.getHeight() || isRemoved) {
                                     subscription.unsubscribe();
                                     presenter.removeUnit(bullet);
-                                }else {
+                                } else {
                                     bullet.walk(Consts.Vector.DOWN);
                                     presenter.updateUnit(bullet);
                                     presenter.checkHit(bullet);
@@ -129,9 +130,7 @@ public class Bullet extends Walker {
             }
             case Consts.Vector.RIGHT: {
                 setxStart(tank.getxStart() + radius);
-               setyStart(tank.getyStart());
-
-
+                setyStart(tank.getyStart());
 
 
                 subscription = Observable.interval(duration, TimeUnit.MILLISECONDS)
@@ -140,8 +139,8 @@ public class Bullet extends Walker {
                         .subscribe(new Subscriber<Long>() {
                             @Override
                             public void onCompleted() {
-                                if(!subscription.isUnsubscribed())
-                                unsubscribe();
+                                if (!subscription.isUnsubscribed())
+                                    unsubscribe();
                                 presenter.removeUnit(bullet);
                             }
 
@@ -152,10 +151,10 @@ public class Bullet extends Walker {
 
                             @Override
                             public void onNext(Long aLong) {
-                                if(bullet.getxEnd() >=presenter.getWidth() || isRemoved) {
+                                if (bullet.getxEnd() >= presenter.getWidth() || isRemoved) {
 
-                                   onCompleted();
-                                }else {
+                                    onCompleted();
+                                } else {
 
                                     bullet.walk(Consts.Vector.RIGHT);
                                     presenter.updateUnit(bullet);
@@ -185,10 +184,10 @@ public class Bullet extends Walker {
 
                             @Override
                             public void onNext(Long aLong) {
-                                if(bullet.getxStart() ==0 || isRemoved)  {
+                                if (bullet.getxStart() == 0 || isRemoved) {
                                     unsubscribe();
                                     presenter.removeUnit(bullet);
-                                }else {
+                                } else {
                                     bullet.walk(Consts.Vector.LEFT);
                                     presenter.updateUnit(bullet);
                                     presenter.checkHit(bullet);
@@ -206,14 +205,10 @@ public class Bullet extends Walker {
         this.parentId = parentId;
     }
 
+
     @Override
-    public void demolish() {
-
+    public void demolish(Field field) {
+        HashMap<Integer, View> map = field.getMap();
+        field.removeView(map.get(getId()));
     }
-
-
-
-
-
-
 }
