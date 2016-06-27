@@ -117,6 +117,12 @@ public class Field extends FrameLayout {
 
         if (unit instanceof Wall) {
             imageView.setBackgroundResource(R.drawable.wall);
+            imageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         if (unit instanceof Checker) {
