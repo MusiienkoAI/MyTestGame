@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="artem.musiienko.mytestgame.MainActivity">
+    tools:context=".activities.MainActivity">
 
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <artem.musiienko.mytestgame.utils.customviews.Field
+        <artem.musiienko.tanks.utils.customviews.Field
             android:id="@+id/field"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,7 +24,7 @@
             app:col_number="10"
             app:row_number="7">
 
-        </artem.musiienko.mytestgame.utils.customviews.Field>
+        </artem.musiienko.tanks.utils.customviews.Field>
 
 
         <LinearLayout

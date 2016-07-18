@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">TestGame</string>
+
+    <string name="item_multiplayer">Multiplayer</string>
+    <string name="item_training">Training</string>
+    <string name="item_upgrade">Upgrade</string>
+    <string name="item_options">Options</string>
+
+
+    <string name="title_create_server">New Server</string>
+
+    <string name="hint_name">Name</string>
+    <string name="hint_user_count">User count</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_private">Private</string>
+    <string name="hint_players">Players:</string>
+
+
+    <string name="btn_create">CREATE</string>
+    <string name="btn_start">START</string>
+
+
+    <string name="no_servers">No servers</string>
+
 </resources>

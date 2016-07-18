@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/menu_item_height"
+        android:textSize="@dimen/ts_big"
+        android:text="@string/item_multiplayer"
+        android:gravity="center"
+        android:textColor="@color/menu_item"
+        android:id="@+id/tv_multiplayer" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/menu_item_height"
+        android:textSize="@dimen/ts_big"
+        android:text="@string/item_training"
+        android:gravity="center"
+        android:textColor="@color/menu_item"
+        android:id="@+id/tv_training" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/menu_item_height"
+        android:textSize="@dimen/ts_big"
+        android:text="@string/item_upgrade"
+        android:gravity="center"
+        android:textColor="@color/menu_item"
+        android:id="@+id/tv_upgrade" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/menu_item_height"
+        android:textSize="@dimen/ts_big"
+        android:text="@string/item_options"
+        android:gravity="center"
+        android:textColor="@color/menu_item"
+        android:id="@+id/tv_options" />
+</LinearLayout>

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="menu_item">#FF825417</color>
+    <dimen name="toolbar_height">56dp</dimen>
 
     <color name="grid_color">#5A555555</color>
 </resources>

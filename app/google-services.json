@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "462400079440",
+    "firebase_url": "https://befirst-1255.firebaseio.com",
+    "project_id": "befirst-1255",
+    "storage_bucket": "befirst-1255.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462400079440:android:905e35dd33cf9763",
+        "android_client_info": {
+          "package_name": "artem.musiienko.tanks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462400079440-c89qea3b79t6d5mieq0fe20r4o2qp499.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "artem.musiienko.tanks",
+            "certificate_hash": "A84267EB0C68E98CA75383458D456A1D7FDEAEDF"
+          }
+        },
+        {
+          "client_id": "462400079440-lq6hl4eeeb1qq971e8rov5m8qo8pob9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "artem.musiienko.tanks",
+            "certificate_hash": "3CF7225BC809D3C1DA938BB39162D737F6137472"
+          }
+        },
+        {
+          "client_id": "462400079440-sct1kf1jh2cu4vh9tvuqnl6lp7bf8lon.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "462400079440-gp9tb1auf9q6hk4cg6bv9ucfegg5bfnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoe19HDBblcS0wrP-rFGeS5Ls6mon9PY8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-75331714-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462400079440-sct1kf1jh2cu4vh9tvuqnl6lp7bf8lon.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+
+        <ImageView
+            android:layout_width="@dimen/toolbar_height"
+            android:layout_height="@dimen/toolbar_height"
+            android:id="@+id/iv_back"
+            android:src="@drawable/ic_action_hardware_keyboard_arrow_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_multiplayer"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/ts_big" />
+    </RelativeLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_servers"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--android:background="@drawable/selector_list_messages"-->
+        <TextView
+            android:id="@+id/tv_cap"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_servers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <!--app:layout_behavior="v_jet.iamparent.layout_manager.ScrollAwareFABBehavior"-->
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_new_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_content_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:rippleColor="@android:color/holo_green_light"
+            android:padding="6dp"
+            app:elevation="6dp"
+            app:borderWidth="0dp"
+            app:pressedTranslationZ="12dp"
+            app:layout_anchor="@id/rv_servers"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</LinearLayout>
