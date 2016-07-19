@@ -16,4 +16,7 @@ public interface ServersPresenter {
 
     void onServerClick(String id);
 
+
+    void onDestroy();
+
 }

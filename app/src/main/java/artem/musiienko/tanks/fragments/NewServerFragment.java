@@ -7,15 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.SimpleAdapter;
 
 import artem.musiienko.tanks.R;
 import artem.musiienko.tanks.presenterImpls.NewServerPresenterImpl;
 import artem.musiienko.tanks.presenters.NewServerPresenter;
+import artem.musiienko.tanks.utils.Consts;
 import artem.musiienko.tanks.views.NewServerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +75,7 @@ public class NewServerFragment extends BaseMenuFragment implements NewServerView
         presenter = new NewServerPresenterImpl(this);
         presenter.initSpinner(spinner);
         initAnimation();
+        initTextWatchers();
     }
 
 
@@ -113,6 +115,53 @@ public class NewServerFragment extends BaseMenuFragment implements NewServerView
     void onBack() {
         activity.back();
     }
+
+
+    private void initTextWatchers() {
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                presenter.setName(editable.toString());
+                etName.setError(null);
+            }
+        });
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                presenter.setPassword(editable.toString());
+                etPassword.setError(null);
+            }
+        });
+    }
+
+
+
+
+
+
+
+
 
 
     private void initAnimation() {
@@ -162,5 +211,25 @@ public class NewServerFragment extends BaseMenuFragment implements NewServerView
 
             }
         });
+    }
+
+    @Override
+    public void onValidationError(int errorCode) {
+        switch (errorCode) {
+            case Consts.Errors.EMPTY_NAME:
+                etName.setError(getString(R.string.empty_name));
+                break;
+            case Consts.Errors.SHORT_NAME:
+                etName.setError(getString(R.string.short_name));
+                break;
+            case Consts.Errors.EMPTY_PASSWORD:
+                etPassword.setError(getString(R.string.empty_password));
+                break;
+        }
+    }
+
+    @Override
+    public void clearPassword() {
+        etPassword.setText("");
     }
 }

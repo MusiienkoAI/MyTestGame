@@ -6,9 +6,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import artem.musiienko.tanks.models.ServerModel;
 import artem.musiienko.tanks.presenters.NewServerPresenter;
+import artem.musiienko.tanks.utils.Consts;
 import artem.musiienko.tanks.views.NewServerView;
 
 /**
@@ -19,9 +25,16 @@ public class NewServerPresenterImpl implements NewServerPresenter, AdapterView.O
 
     private NewServerView view;
 
+    private DatabaseReference mDatabase;
+
     public NewServerPresenterImpl(NewServerView view) {
         this.view = view;
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("servers");
+        serverModel = new ServerModel();
     }
+
+
+    private ServerModel serverModel;
 
     @Override
     public void initSpinner(AppCompatSpinner spinner) {
@@ -35,32 +48,69 @@ public class NewServerPresenterImpl implements NewServerPresenter, AdapterView.O
 
     @Override
     public void setPrivate(boolean aPrivate) {
-
+        if (aPrivate)
+            serverModel.setPrivateStatus(Consts.ServerPrivateStatus.PRIVATE.ordinal());
+        else {
+            serverModel.setPrivateStatus(Consts.ServerPrivateStatus.PUBLIC.ordinal());
+            serverModel.setPassword("");
+            view.clearPassword();
+        }
     }
 
     @Override
     public void setName(String name) {
-
+        serverModel.setName(name);
     }
 
     @Override
     public void setPassword(String password) {
-
+        serverModel.setPassword(password);
     }
 
     @Override
     public void create() {
-
+        if (isValid()) {
+            String key = mDatabase.push().getKey();
+            serverModel.setId(key);
+            serverModel.setCreateTime(Calendar.getInstance().getTimeInMillis());
+            mDatabase.child(key).setValue(serverModel);
+        }
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.d("onItemClick", "position = " + i);
+        if (i == 0) {
+            serverModel.setMaxCount(2);
+        }
+        if (i == 1) {
+            serverModel.setMaxCount(4);
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+
+    private boolean isValid() {
+        if (serverModel.getName().trim().length() == 0) {
+            view.onValidationError(Consts.Errors.EMPTY_NAME);
+            return false;
+        }
+
+        if (serverModel.getName().trim().length() < 4) {
+            view.onValidationError(Consts.Errors.SHORT_NAME);
+            return false;
+        }
+
+
+        if (serverModel.getPassword().trim().length() == 0 && serverModel.getPrivateStatus() == Consts.ServerPrivateStatus.PRIVATE.ordinal()) {
+            view.onValidationError(Consts.Errors.EMPTY_PASSWORD);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -8,12 +8,14 @@
 
 
     <string name="title_create_server">New Server</string>
+    <string name="title_lobby">Lobby</string>
 
     <string name="hint_name">Name</string>
     <string name="hint_user_count">User count</string>
     <string name="hint_password">Password</string>
     <string name="hint_private">Private</string>
     <string name="hint_players">Players:</string>
+    <string name="hint_ready">Ready</string>
 
 
     <string name="btn_create">CREATE</string>
@@ -21,5 +23,13 @@
 
 
     <string name="no_servers">No servers</string>
+
+    //ERRORS
+    <string name="empty_name">Server name can not be empty!</string>
+    <string name="short_name">Server must be 4 chars minimum!</string>
+    <string name="empty_password">Server password can not be empty if private!</string>
+
+
+    <string name="server_client_id" translatable="false">351322477132-bu6nus8f3n6ct5h87bcoo2l4ra4tn4k3.apps.googleusercontent.com</string>
 
 </resources>

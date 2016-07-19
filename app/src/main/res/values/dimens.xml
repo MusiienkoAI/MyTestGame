@@ -4,6 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
 
+    <dimen name="button_height">60dp</dimen>
+
     <dimen name="button_arrow_radius">45dp</dimen>
 
     <dimen name="button_fire_radius">50dp</dimen>

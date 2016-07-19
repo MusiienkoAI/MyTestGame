@@ -79,11 +79,20 @@ public class ServersFragment extends BaseMenuFragment implements ServersView {
 
     @Override
     public void enterTheLobby(String id) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString(Consts.ARGS.SERVER_ID, id);
+        activity.setBundle(bundle);
+        activity.selectItem(Consts.Tags.LOBBY);
     }
 
     @Override
     public void showThePasswordDialog(String id) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 }

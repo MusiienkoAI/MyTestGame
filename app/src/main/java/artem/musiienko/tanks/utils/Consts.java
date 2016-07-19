@@ -20,12 +20,24 @@ public class Consts {
     }
 
 
-    public enum ServerStatus {
-        Offline,
-        Online,
-        Ready,
-        Playing
+    public static class ARGS {
+        public static final String SERVER_ID = "server_id";
     }
+
+
+    public enum ServerStatus {
+        ONLINE,
+        READY,
+        PLAYING,
+    }
+
+
+    public enum ServerPrivateStatus {
+        PUBLIC,
+        PRIVATE
+    }
+
+
 
 
     public static class Tags {
@@ -39,5 +51,10 @@ public class Consts {
     }
 
 
+    public static class Errors {
+        public static final int EMPTY_NAME = 1;
+        public static final int SHORT_NAME = 2;
+        public static final int EMPTY_PASSWORD = 3;
+    }
 
 }

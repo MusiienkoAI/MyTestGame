@@ -7,10 +7,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import artem.musiienko.tanks.R;
+import artem.musiienko.tanks.models.ServerModel;
 import artem.musiienko.tanks.presenters.ServersPresenter;
+import artem.musiienko.tanks.utils.Consts;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by artyom on 05.07.16.
@@ -20,8 +27,14 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ServerView
 
     private ServersPresenter presenter;
 
+    private RealmResults<ServerModel> serverModels;
+
     public ServerAdapter(ServersPresenter presenter) {
         this.presenter = presenter;
+        Realm realm = Realm.getDefaultInstance();
+        serverModels = realm.where(ServerModel.class).equalTo("status", Consts.ServerStatus.ONLINE.ordinal()).findAll();
+
+
     }
 
     @Override
@@ -32,17 +45,33 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ServerView
 
     @Override
     public void onBindViewHolder(ServerViewHolder holder, int position) {
+
+        final ServerModel model = serverModels.get(position);
+        holder.tvName.setText(model.getName());
+
+
+        holder.tvPlayers.setText(
+                String.format("%s %s/%s",
+                        holder.itemView.getContext().getString(R.string.hint_players),
+                        model.getCurCount(),
+                        model.getMaxCount()));
+
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
+        String time = simpleDateFormat.format(model.getCreateTime());
+        holder.tvTime.setText(time);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.onServerClick("id");
+                presenter.onServerClick(model.getId());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return serverModels.size();
     }
 
     class ServerViewHolder extends RecyclerView.ViewHolder {

@@ -37,7 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_name"
-            android:textSize="@dimen/ts_normal" />
+            android:textSize="@dimen/ts_normal"
+            android:singleLine="true"
+            android:maxEms="30" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -96,8 +98,8 @@
             android:layout_marginTop="@dimen/main_padding"
             android:visibility="gone"
             android:textSize="@dimen/ts_normal"
-
-            />
+            android:singleLine="true"
+            android:maxEms="30" />
     </LinearLayout>
 
 
