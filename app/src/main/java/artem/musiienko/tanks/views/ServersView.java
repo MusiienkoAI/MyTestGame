@@ -9,4 +9,6 @@ public interface ServersView {
 
     void showThePasswordDialog(String id);
 
+    void errorResponse(int code);
+
 }

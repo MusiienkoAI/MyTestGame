@@ -55,6 +55,7 @@ public class Consts {
         public static final int EMPTY_NAME = 1;
         public static final int SHORT_NAME = 2;
         public static final int EMPTY_PASSWORD = 3;
+        public static final int SERVER_FULL = 4;
     }
 
 }

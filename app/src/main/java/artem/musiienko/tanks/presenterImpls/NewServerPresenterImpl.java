@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import artem.musiienko.tanks.models.ServerModel;
+import artem.musiienko.tanks.models.UserModel;
 import artem.musiienko.tanks.presenters.NewServerPresenter;
 import artem.musiienko.tanks.utils.Consts;
 import artem.musiienko.tanks.views.NewServerView;
+import io.realm.Realm;
 
 /**
  * Created by artyom on 05.07.16.
@@ -73,7 +76,20 @@ public class NewServerPresenterImpl implements NewServerPresenter, AdapterView.O
             String key = mDatabase.push().getKey();
             serverModel.setId(key);
             serverModel.setCreateTime(Calendar.getInstance().getTimeInMillis());
+            serverModel.setCurCount(1);
             mDatabase.child(key).setValue(serverModel);
+
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Realm realm = Realm.getDefaultInstance();
+            UserModel userModel = realm.where(UserModel.class).equalTo("id", uid).findFirst();
+            realm.beginTransaction();
+            userModel.setServerId(key);
+            realm.commitTransaction();
+            FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("serverId").setValue(key);
+
+
+            view.enterTheLobby(key);
         }
     }
 

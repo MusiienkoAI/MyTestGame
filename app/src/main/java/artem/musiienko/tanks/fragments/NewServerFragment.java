@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,6 +227,14 @@ public class NewServerFragment extends BaseMenuFragment implements NewServerView
                 etPassword.setError(getString(R.string.empty_password));
                 break;
         }
+    }
+
+    @Override
+    public void enterTheLobby(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Consts.ARGS.SERVER_ID, id);
+        activity.setBundle(bundle);
+        activity.selectItem(Consts.Tags.LOBBY);
     }
 
     @Override

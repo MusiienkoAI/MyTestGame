@@ -8,5 +8,7 @@ public interface NewServerView {
 
     void onValidationError(int errorCode);
 
+    void enterTheLobby(String id);
+
     void clearPassword();
 }

@@ -23,7 +23,7 @@ public class UserModel implements RealmModel {
 
     private int ready;
 
-    private int serverId;
+    private String serverId;
 
 
     public String getId() {
@@ -53,11 +53,11 @@ public class UserModel implements RealmModel {
     }
 
 
-    public int getServerId() {
+    public String getServerId() {
         return serverId;
     }
 
-    public void setServerId(int serverId) {
+    public void setServerId(String serverId) {
         this.serverId = serverId;
     }
 

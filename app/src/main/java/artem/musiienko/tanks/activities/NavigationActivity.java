@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import artem.musiienko.tanks.R;
 import artem.musiienko.tanks.fragments.LobbyFragment;
 import artem.musiienko.tanks.fragments.MenuFragment;
@@ -29,6 +31,15 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent intent = new Intent(NavigationActivity.this,StartActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+
         setContentView(R.layout.activity_navigation);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {

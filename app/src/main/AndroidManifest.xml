@@ -12,15 +12,11 @@
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
-        <activity
-            android:name=".activities.NavigationActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
         </activity>
         <activity
-            android:name=".activities.StartActivity"
+            android:name=".activities.NavigationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -28,6 +24,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.StartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
         </activity>
     </application>
 

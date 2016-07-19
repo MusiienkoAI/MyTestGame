@@ -2,13 +2,18 @@ package artem.musiienko.tanks.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import artem.musiienko.tanks.R;
+import artem.musiienko.tanks.models.UserModel;
 import artem.musiienko.tanks.presenterImpls.ServersPresenterImpl;
 import artem.musiienko.tanks.presenters.ServersPresenter;
 import artem.musiienko.tanks.utils.Consts;
@@ -16,6 +21,7 @@ import artem.musiienko.tanks.views.ServersView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * Created by artyom on 04.07.16.
@@ -88,6 +94,12 @@ public class ServersFragment extends BaseMenuFragment implements ServersView {
     @Override
     public void showThePasswordDialog(String id) {
 
+    }
+
+    @Override
+    public void errorResponse(int code) {
+        if (this.getView() != null)
+            Snackbar.make(this.getView(), R.string.server_full, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
